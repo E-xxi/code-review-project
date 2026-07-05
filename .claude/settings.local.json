@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew --version)",
+      "Bash(git --version)",
+      "Bash(java -version)",
+      "Bash(npm -v)",
+      "Bash(psql --version)",
+      "Bash(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh)",
+      "Bash(bash)",
+      "Bash(curl -s \"https://get.sdkman.io\")",
+      "Bash(mkdir -p ~/Library/Java/JavaVirtualMachines)",
+      "Bash(curl -L -o /private/tmp/claude-501/-Users-jiwonleemac-Documents-GitHub-code-review-project/8c1c93cf-ae44-4073-9a8b-2c6b998e870b/scratchpad/jdk21.tar.gz \"https://api.adoptium.net/v3/binary/latest/21/ga/mac/aarch64/jdk/hotspot/normal/eclipse\")",
+      "Bash(tar -xzf /private/tmp/claude-501/-Users-jiwonleemac-Documents-GitHub-code-review-project/8c1c93cf-ae44-4073-9a8b-2c6b998e870b/scratchpad/jdk21.tar.gz -C ~/Library/Java/JavaVirtualMachines)",
+      "Read(//Users/jiwonleemac/Library/Java/JavaVirtualMachines/**)",
+      "Read(//Users/jiwonleemac/Library/Java/JavaVirtualMachines/jdk-21.0.11+10/**)",
+      "Read(//Users/jiwonleemac/Library/Java/JavaVirtualMachines/jdk-21.0.11+10/Contents/**)",
+      "Read(//Users/jiwonleemac/Library/Java/JavaVirtualMachines/jdk-21.0.11+10/Contents/Home/bin/**)",
+      "Bash(grep -n \"JAVA_HOME\" ~/.zshrc)",
+      "Read(//Users/jiwonleemac/**)",
+      "Bash(rm -f \"/private/tmp/claude-501/-Users-jiwonleemac-Documents-GitHub-code-review-project/8c1c93cf-ae44-4073-9a8b-2c6b998e870b/scratchpad/jdk21.tar.gz\")",
+      "Bash(curl -G https://start.spring.io/starter.zip -d type=maven-project -d language=java -d bootVersion=3.4.1 -d baseDir=backend -d groupId=com.example -d artifactId=codereview -d name=codereview -d packageName=com.example.codereview -d javaVersion=21 -d dependencies=web,data-jpa,postgresql,lombok,validation -o backend.zip)",
+      "Bash(curl -s https://start.spring.io/metadata/client)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d['bootVersion']['default']\\)\")",
+      "Bash(rm -f backend.zip)",
+      "Bash(curl -G https://start.spring.io/starter.zip -d type=maven-project -d language=java -d baseDir=backend -d groupId=com.example -d artifactId=codereview -d name=codereview -d packageName=com.example.codereview -d javaVersion=21 -d dependencies=web,data-jpa,postgresql,lombok,validation -o backend.zip)",
+      "Bash(unzip -q backend.zip -d .)",
+      "Bash(rm backend.zip)"
+    ]
+  }
+}

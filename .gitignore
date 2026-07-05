@@ -1,0 +1,12 @@
+# backend
+backend/target/
+backend/.idea/
+backend/*.iml
+
+# frontend
+frontend/node_modules/
+frontend/dist/
+
+# 공통
+.env
+.DS_Store
