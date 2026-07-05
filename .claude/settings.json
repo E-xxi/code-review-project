@@ -8,7 +8,15 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8080/)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/)",
       "Bash(pkill -f \"npm run dev\")",
-      "Bash(pkill -f \"vite\")"
+      "Bash(pkill -f \"vite\")",
+      "Bash(xargs -I{} unzip -l {})",
+      "Bash(grep -E \"JsonNode.class$\")",
+      "Bash(xargs -I{} sh -c 'unzip -l \"{}\" 2>/dev/null | grep -qi \"WebClientAutoConfiguration.class\" && echo {}')",
+      "Bash(xargs -I{} unzip -p {} META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports)",
+      "Bash(curl -s -o /dev/null -w \"no body -> %{http_code}\\\\n\" -X POST http://localhost:8080/api/analyze -H \"Content-Type: application/json\" -d '{}')",
+      "Bash(curl -s -o /dev/null -w \"blank fields -> %{http_code}\\\\n\" -X POST http://localhost:8080/api/analyze -H \"Content-Type: application/json\" -d '{\"problem\":\"\",\"code\":\"\"}')",
+      "Skill(run)",
+      "Skill(run:*)"
     ]
   }
 }

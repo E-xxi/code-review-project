@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>AlgoLens - Card Style</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  .app {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Header */
+  .header {
+    flex: none;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    border-bottom: 1px solid #21262d;
+    background: #010409;
+  }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .logo {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: linear-gradient(135deg, #58a6ff, #3fb950);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-weight: 700;
+    font-size: 13px; color: #0d1117;
+  }
+  .title { font-size: 14px; font-weight: 600; color: #e6edf3; line-height: 1.1; }
+  .subtitle { font-size: 10.5px; color: #6e7681; line-height: 1.1; }
+
+  .lang-select {
+    background: #161b22; color: #c9d1d9; border: 1px solid #30363d;
+    border-radius: 6px; padding: 6px 10px; font-size: 12px; font-family: inherit;
+  }
+
+  /* Main grid */
+  .main {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: #21262d;
+  }
+  .panel {
+    background: #0d1117;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 20px;
+    gap: 14px;
+    overflow-y: auto;
+  }
+
+  /* Left panel */
+  .problem-toggle {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    background: transparent; border: none; color: #8b949e; font-size: 12px;
+    font-weight: 500; padding: 4px 0; cursor: pointer; font-family: inherit;
+  }
+  .problem-textarea {
+    width: 100%; box-sizing: border-box; min-height: 80px; resize: vertical;
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    color: #c9d1d9; font-size: 12.5px; line-height: 1.6; padding: 10px 12px;
+    font-family: 'Inter', system-ui, sans-serif; outline: none;
+  }
+
+  .code-card {
+    flex: 1; min-height: 200px; display: flex; flex-direction: column;
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px; overflow: hidden;
+  }
+  .code-card-header {
+    flex: none; display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; border-bottom: 1px solid #21262d; background: #010409;
+  }
+  .code-card-header span { font-size: 11.5px; color: #8b949e; font-weight: 500; }
+  .sample-btn {
+    background: transparent; border: 1px solid #30363d; color: #8b949e;
+    font-size: 11px; padding: 3px 8px; border-radius: 5px; cursor: pointer; font-family: inherit;
+  }
+  .code-textarea {
+    flex: 1; width: 100%; box-sizing: border-box; resize: none; background: #0d1117;
+    border: none; color: #d1d9e0; font-size: 13px; line-height: 1.7; padding: 14px;
+    outline: none; tab-size: 2; font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  .analyze-btn {
+    flex: none; width: 100%; padding: 12px; border: none; border-radius: 8px;
+    background: #238636; color: #ffffff; font-size: 13.5px; font-weight: 600;
+    cursor: pointer; font-family: inherit; display: flex; align-items: center;
+    justify-content: center; gap: 8px;
+  }
+  .analyze-btn:disabled { background: #21262d; color: #6e7681; cursor: not-allowed; }
+
+  /* Right panel: result cards (Card style) */
+  .result-card {
+    padding: 16px;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+  }
+  .card-header { display: flex; align-items: center; gap: 8px; }
+  .card-icon { font-size: 14px; width: 18px; text-align: center; }
+  .card-icon.time { color: #58a6ff; }
+  .card-icon.style { color: #3fb950; }
+  .card-icon.pattern { color: #d29922; }
+  .card-icon.improve { color: #bc8cff; }
+  .card-title { font-size: 12.5px; font-weight: 600; color: #e6edf3; }
+
+  .complexity-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .badge-time, .badge-space {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+    padding: 3px 9px; border-radius: 5px;
+  }
+  .badge-time { color: #58a6ff; background: rgba(88,166,255,0.12); }
+  .badge-space { color: #3fb950; background: rgba(63,185,80,0.12); }
+  .complexity-note { font-size: 12.5px; color: #8b949e; }
+
+  .style-feedback-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+  .style-feedback-item { display: flex; gap: 8px; font-size: 12.5px; line-height: 1.6; color: #c9d1d9; }
+  .style-feedback-item .bullet { color: #6e7681; flex: none; }
+
+  .pattern-body { margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+  .pattern-badge-row { display: flex; align-items: center; gap: 8px; }
+  .pattern-badge {
+    font-size: 11.5px; font-weight: 600; color: #d29922;
+    background: rgba(210,153,34,0.12); padding: 4px 10px; border-radius: 6px;
+  }
+  .pattern-badge-label { font-size: 11.5px; color: #6e7681; }
+  .diagnosis-box {
+    font-size: 12.5px; line-height: 1.65; color: #c9d1d9;
+    background: rgba(188,140,255,0.08); border-radius: 6px;
+    padding: 10px 12px; border-left: 3px solid #bc8cff;
+  }
+
+  .improvement-body { margin-top: 10px; display: flex; flex-direction: column; gap: 12px; }
+  .improvement-summary { font-size: 12.5px; line-height: 1.7; color: #c9d1d9; }
+  .refactor-block { background: #010409; border: 1px solid #30363d; border-radius: 8px; overflow: hidden; }
+  .refactor-header {
+    padding: 6px 12px; font-size: 10.5px; color: #6e7681;
+    border-bottom: 1px solid #21262d; background: #0d1117;
+  }
+  .refactor-code {
+    margin: 0; padding: 12px 14px; font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px; line-height: 1.65; color: #7ee787; overflow-x: auto; white-space: pre;
+  }
+
+  .empty-state {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 10px; border: 1px dashed #30363d;
+    border-radius: 10px; min-height: 300px;
+  }
+  .empty-icon { font-size: 28px; opacity: 0.4; }
+  .empty-text { font-size: 13px; color: #6e7681; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">&lt;/&gt;</div>
+      <div>
+        <div class="title">AlgoLens</div>
+        <div class="subtitle">코드 복잡도 &amp; 개선점 분석</div>
+      </div>
+    </div>
+    <select class="lang-select">
+      <option value="python">Python</option>
+      <option value="java">Java</option>
+      <option value="cpp">C++</option>
+      <option value="javascript">JavaScript</option>
+    </select>
+  </div>
+
+  <div class="main">
+
+    <div class="panel">
+      <div>
+        <button class="problem-toggle">
+          <span>문제 설명 (선택)</span>
+          <span>−</span>
+        </button>
+        <textarea class="problem-textarea" placeholder="문제 설명을 붙여넣으세요">N개의 정수 중, 두 수를 더해 K가 되는 쌍의 개수를 구하시오.</textarea>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card-header">
+          <span>내 코드</span>
+          <button class="sample-btn">예시 코드 불러오기</button>
+        </div>
+        <textarea class="code-textarea" spellcheck="false">def solve(nums, k):
+    n = len(nums)
+    count = 0
+    for i in range(n):
+        for j in range(i+1, n):
+            if nums[i] + nums[j] == k:
+                count += 1
+    return count</textarea>
+      </div>
+
+      <button class="analyze-btn">분석하기</button>
+    </div>
+
+    <div class="panel">
+
+      <div class="result-card">
+        <div class="card-header">
+          <span class="card-icon time">⏱</span>
+          <span class="card-title">시간/공간 복잡도</span>
+        </div>
+        <div class="complexity-row">
+          <span class="badge-time">시간 O(n²)</span>
+          <span class="badge-space">공간 O(n)</span>
+          <span class="complexity-note">이중 반복문으로 인해 입력 크기에 따라 급격히 느려집니다.</span>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="card-header">
+          <span class="card-icon style">✎</span>
+          <span class="card-title">스타일 / 가독성 피드백</span>
+        </div>
+        <div class="style-feedback-list">
+          <div class="style-feedback-item"><span class="bullet">·</span><span>변수명 count, n은 명확하지만 need, seen처럼 의도를 드러내는 이름을 더 쓰면 좋습니다.</span></div>
+          <div class="style-feedback-item"><span class="bullet">·</span><span>중첩 반복문 depth가 깊어질수록 가독성이 떨어지니 조기 종료(early return) 활용을 고려하세요.</span></div>
+          <div class="style-feedback-item"><span class="bullet">·</span><span>매직 넘버 없이 파라미터화가 잘 되어 있는 점은 좋습니다.</span></div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="card-header">
+          <span class="card-icon pattern">◆</span>
+          <span class="card-title">감지된 패턴 &amp; 개념 진단</span>
+        </div>
+        <div class="pattern-body">
+          <div class="pattern-badge-row">
+            <span class="pattern-badge">완전탐색 (Brute Force)</span>
+            <span class="pattern-badge-label">감지된 접근법</span>
+          </div>
+          <div class="diagnosis-box">이 문제는 값 하나를 저장해두고 나머지를 순회하며 확인하는 해시맵 기반 풀이(투 포인터/해시)로 O(n)에 풀 수 있는데, 현재 코드는 모든 쌍을 이중 반복문으로 확인하는 완전탐색 방식을 사용해 시간 복잡도가 불필요하게 높습니다.</div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="card-header">
+          <span class="card-icon improve">↻</span>
+          <span class="card-title">개선 방향 제안</span>
+        </div>
+        <div class="improvement-body">
+          <div class="improvement-summary">이미 등장한 값을 해시맵에 저장해두고, 매 원소마다 '필요한 나머지 값'이 맵에 있는지 O(1)에 확인하는 방식으로 바꾸면 이중 반복문을 제거할 수 있습니다.</div>
+          <div class="refactor-block">
+            <div class="refactor-header">리팩토링 예시</div>
+            <pre class="refactor-code">def solve(nums, k):
+    seen = {}
+    count = 0
+    for x in nums:
+        need = k - x
+        if need in seen:
+            count += seen[need]
+        seen[x] = seen.get(x, 0) + 1
+    return count  # O(n^2) -> O(n)</pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
