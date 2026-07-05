@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip -l ~/.m2/repository/org/springframework/boot/spring-boot-data-jpa/4.1.0/spring-boot-data-jpa-4.1.0.jar)",
+      "Bash(xargs -I{} sh -c 'unzip -l \"{}\" 2>/dev/null | grep -qi \"HibernateJpaAutoConfiguration\" && echo {}')",
+      "Bash(unzip -p ~/.m2/repository/org/springframework/boot/spring-boot-jpa/4.1.0/spring-boot-jpa-4.1.0.jar META-INF/spring.factories)",
+      "Bash(unzip -p ~/.m2/repository/org/springframework/boot/spring-boot-hibernate/4.1.0/spring-boot-hibernate-4.1.0.jar META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8080/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/)",
+      "Bash(pkill -f \"npm run dev\")",
+      "Bash(pkill -f \"vite\")"
+    ]
+  }
+}
