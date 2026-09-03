@@ -1,5 +1,7 @@
 package com.example.codereview.service;
 
+import com.example.codereview.analysis.CodeStructureSummary;
+import com.example.codereview.analysis.PythonStructureAnalyzer;
 import com.example.codereview.dto.AnalyzeRequest;
 import com.example.codereview.dto.AnalyzeResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,6 +74,7 @@ public class ClaudeAnalysisService {
 
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
+    private final PythonStructureAnalyzer structureAnalyzer;
     private final String apiKey;
     private final String model;
     private final JsonNode toolSchema;
@@ -79,11 +82,13 @@ public class ClaudeAnalysisService {
     public ClaudeAnalysisService(
             WebClient anthropicWebClient,
             ObjectMapper objectMapper,
+            PythonStructureAnalyzer structureAnalyzer,
             @Value("${anthropic.api.key}") String apiKey,
             @Value("${anthropic.api.model}") String model
     ) {
         this.webClient = anthropicWebClient;
         this.objectMapper = objectMapper;
+        this.structureAnalyzer = structureAnalyzer;
         this.apiKey = apiKey;
         this.model = model;
         this.toolSchema = objectMapper.readTree(TOOL_SCHEMA_JSON);
@@ -112,6 +117,11 @@ public class ClaudeAnalysisService {
     }
 
     private String buildPrompt(AnalyzeRequest request) {
+        String structureSection = structureAnalyzer.analyze(request.code())
+                .map(CodeStructureSummary::toPromptContext)
+                .map(context -> "\n\n[ANTLR4로 미리 파싱한 코드 구조]\n" + context)
+                .orElse("");
+
         return """
                 아래는 코딩 테스트 문제와 그에 대한 사용자의 풀이 코드입니다.
                 문제와 코드를 분석해서 %s 도구를 호출해 결과를 제출하세요.
@@ -120,8 +130,8 @@ public class ClaudeAnalysisService {
                 %s
 
                 [사용자 코드]
-                %s
-                """.formatted(TOOL_NAME, request.problem(), request.code());
+                %s%s
+                """.formatted(TOOL_NAME, request.problem(), request.code(), structureSection);
     }
 
     private AnalyzeResponse extractAnalysis(JsonNode response) {
